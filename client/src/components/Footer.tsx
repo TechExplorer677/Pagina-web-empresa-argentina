@@ -42,8 +42,22 @@ const socialLinks = [
 
 export default function Footer({ onContactClick }: FooterProps) {
   return (
-    <footer className="bg-card border-t" data-testid="footer-main">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="relative border-t overflow-hidden" data-testid="footer-main">
+      {/* Modern footer background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/95 to-card" />
+        
+        {/* Subtle wave pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335z' fill='%23000'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat-x',
+          backgroundPosition: 'bottom'
+        }} />
+        
+        {/* Gradient accents */}
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary/5 to-transparent" />
+      </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Main Footer Content */}
         <div className="py-16">
           <div className="grid lg:grid-cols-6 gap-8">

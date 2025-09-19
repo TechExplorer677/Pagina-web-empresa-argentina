@@ -57,8 +57,24 @@ const team = [
 
 export default function About() {
   return (
-    <section id="nosotros" className="py-24 bg-muted/30" data-testid="section-about">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="nosotros" className="py-24 relative overflow-hidden" data-testid="section-about">
+      {/* Rich layered background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-muted/15 to-background" />
+        
+        {/* Hexagon pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Cpath d='m36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm-6-10v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }} />
+        
+        {/* Flowing gradients */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent transform -skew-y-12 scale-150" />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-secondary/5 to-transparent transform skew-y-12 scale-150" />
+        
+        {/* Soft light effects */}
+        <div className="absolute top-1/3 left-1/3 w-80 h-80 bg-primary/8 rounded-full blur-3xl animate-pulse" style={{animationDuration: '10s'}} />
+      </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

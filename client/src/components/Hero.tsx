@@ -14,10 +14,28 @@ export default function Hero({ onContactClick }: HeroProps) {
       className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden"
       data-testid="section-hero"
     >
-      {/* Background with gradient overlay */}
+      {/* Enhanced Background with multiple layers */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-secondary/10" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary),0.1),transparent_70%)]" />
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/5" />
+        
+        {/* Animated gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-secondary/10 animate-pulse" style={{animationDuration: '4s'}} />
+        
+        {/* Radial gradients for depth */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(var(--primary),0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(var(--secondary),0.1),transparent_50%)]" />
+        
+        {/* Geometric pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, currentColor 2px, transparent 2px),
+                           radial-gradient(circle at 75% 75%, currentColor 2px, transparent 2px)`,
+          backgroundSize: '100px 100px',
+          color: 'hsl(var(--primary))'
+        }} />
+        
+        {/* Mesh gradient effect */}
+        <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,rgba(var(--primary),0.03)_60deg,transparent_120deg,rgba(var(--secondary),0.03)_180deg,transparent_240deg,rgba(var(--primary),0.03)_300deg,transparent_360deg)]" />
       </div>
 
       {/* Floating Elements */}

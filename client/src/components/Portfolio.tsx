@@ -49,8 +49,23 @@ export default function Portfolio() {
     : portfolioItems.filter(item => item.category === selectedCategory);
 
   return (
-    <section id="portafolio" className="py-24" data-testid="section-portfolio">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="portafolio" className="py-24 relative overflow-hidden" data-testid="section-portfolio">
+      {/* Sophisticated background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary/5 to-primary/5" />
+        
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `linear-gradient(rgba(var(--primary), 0.1) 1px, transparent 1px),
+                           linear-gradient(90deg, rgba(var(--primary), 0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }} />
+        
+        {/* Animated gradient blobs */}
+        <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-3xl animate-pulse" style={{animationDuration: '6s'}} />
+        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-secondary/8 to-transparent rounded-full blur-3xl animate-pulse" style={{animationDuration: '8s', animationDelay: '2s'}} />
+      </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

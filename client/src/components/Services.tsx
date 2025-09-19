@@ -43,8 +43,28 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="servicios" className="py-24 bg-muted/30" data-testid="section-services">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="servicios" className="py-24 relative overflow-hidden" data-testid="section-services">
+      {/* Dynamic background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/20 to-background" />
+        
+        {/* Diagonal stripes effect */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: `repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 50px,
+            currentColor 50px,
+            currentColor 100px
+          )`,
+          color: 'hsl(var(--primary))'
+        }} />
+        
+        {/* Floating orbs */}
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/3 rounded-full blur-3xl" />
+      </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
