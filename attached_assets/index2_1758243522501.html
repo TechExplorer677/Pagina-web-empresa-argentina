@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desarrollo de Software y Chatbots</title>
+  
+  <!-- Bootstrap + FontAwesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Estilos mejorados para una apariencia moderna */
+    :root {
+      --primary: #1a233a; /* Un azul marino más profundo */
+      --secondary: #4a90e2; /* Un azul más vibrante */
+      --accent: #e94b3c; /* Un rojo anaranjado llamativo */
+      --light: #f8f9fa;
+      --dark: #0d1117; /* GitHub dark mode color */
+      --text-light: #e0e0e0;
+      --text-dark: #333;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.7;
+      background-color: var(--light);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+    }
+
+    /* --- Header --- */
+    header {
+      background: rgba(26, 35, 58, 0.85); /* Fondo semitransparente */
+      backdrop-filter: blur(10px); /* Efecto de desenfoque */
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    header.scrolled {
+        background: var(--primary);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .navbar-brand {
+        font-weight: 700 !important;
+        font-size: 1.5rem;
+    }
+    .nav-link {
+        transition: color 0.3s;
+        padding: 0.5rem 1rem !important;
+        position: relative;
+    }
+    .nav-link:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background-color: var(--secondary);
+        transition: width 0.3s ease-in-out;
+    }
+    .nav-link:hover, .nav-link.active {
+        color: var(--secondary) !important;
+    }
+    .nav-link:hover:after {
+        width: 50%;
+    }
+
+
+    /* --- Hero Section --- */
+    .hero {
+      padding: 10rem 0 6rem;
+      background: linear-gradient(135deg, var(--primary) 0%, #3c5aaa 100%);
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before { /* Elemento decorativo */
+        content: '';
+        position: absolute;
+        bottom: -150px;
+        left: -150px;
+        width: 300px;
+        height: 300px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+        z-index: 0;
+    }
+    .hero h1 {
+        font-size: 3.2rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* --- Botones --- */
+    .btn-accent {
+      background: linear-gradient(45deg, var(--accent), #ff6b6b);
+      color: white;
+      border-radius: 50px;
+      padding: .8rem 2.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .3s ease;
+      border: none;
+      box-shadow: 0 4px 15px rgba(233, 75, 60, 0.4);
+    }
+    .btn-accent:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(233, 75, 60, 0.6);
+      color: white;
+    }
+    
+    /* --- Estilos de Sección --- */
+    section {
+        padding: 5rem 0;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    section.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+        position: relative;
+        padding-bottom: 1rem;
+    }
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: var(--secondary);
+        border-radius: 2px;
+    }
+
+    /* --- Tarjetas de Servicio --- */
+    .service-card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      transition: transform .3s ease, box-shadow .3s ease;
+      background: white;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 35px rgba(74, 144, 226, 0.2);
+    }
+    .service-card-icon {
+        font-size: 3rem;
+        width: 80px;
+        height: 80px;
+        margin: 1.5rem auto;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--secondary), #6ab1f7);
+        color: white;
+        box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+    }
+    .service-card-body {
+        padding: 0 1.5rem 1.5rem;
+        text-align: center;
+        flex-grow: 1;
+    }
+
+    /* --- Portafolio --- */
+    #portafolio { background-color: white; }
+    .carousel-item img { border-radius: 15px !important; }
+    .carousel-caption {
+        background: rgba(0,0,0,0.5);
+        border-radius: 0 0 15px 15px;
+        color: white;
+        padding: 1rem;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        background-color: var(--primary);
+        border-radius: 50%;
+        padding: 1.5rem;
+    }
+
+    /* --- Nosotros --- */
+    .about-us-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .about-us-content {
+        padding-right: 2rem;
+    }
+
+    /* --- Contacto --- */
+    #contacto {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+    .form-control, .form-select {
+        border-radius: 8px;
+        padding: 0.9rem;
+        border: 1px solid transparent;
+        background-color: rgba(255,255,255,0.1);
+        color: white;
+        transition: border-color 0.3s, background-color 0.3s;
+    }
+    .form-control::placeholder { color: rgba(255,255,255,0.7); }
+    .form-control:focus, .form-select:focus {
+        background-color: rgba(255,255,255,0.2);
+        box-shadow: none;
+        border-color: var(--secondary);
+        color: white;
+    }
+    .form-label { font-weight: 600; color: rgba(255,255,255,0.9); }
+    .form-select option { color: var(--text-dark); }
+
+    /* --- Footer --- */
+    footer {
+      background: var(--dark);
+      color: var(--text-light);
+      padding: 3rem 0;
+      text-align: center;
+    }
+    footer a {
+      color: var(--text-light);
+      margin: 0 10px;
+      font-size: 1.6rem;
+      transition: color .3s;
+    }
+    footer a:hover {
+      color: var(--secondary);
+    }
+    footer p {
+        margin-top: 1.5rem;
+        color: #888;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark container">
+      <a class="navbar-brand" href="#"><i class="fas fa-rocket text-secondary"></i> Nombre empresa</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+          <li class="nav-item"><a class="nav-link" href="#portafolio">Portafolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="inicio">
+    <div class="container position-relative">
+      <h1 class="display-3 fw-bold">Soluciones Digitales para Impulsar tu Negocio 🚀</h1>
+      <p class="lead my-4">Chatbots, sitios web, e-commerce y sistemas de gestión diseñados para optimizar tus procesos.</p>
+      <a href="#contacto" class="btn-accent">Cotiza tu Proyecto</a>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section id="servicios">
+    <div class="container">
+      <h2 class="text-center section-title">Nuestros Servicios</h2>
+      <div class="row g-4 justify-content-center">
+        <!-- Chatbots -->
+        <div class="col-md-6 col-lg-3 d-flex">
+          <div class="card service-card">
+            <div class="service-card-icon"><i class="fas fa-robot"></i></div>
+            <div class="service-card-body">
+              <h4>Chatbots Inteligentes</h4>
+              <p>Automatiza la atención al cliente 24/7 y mejora la experiencia de usuario.</p>
+            </div>
+            <div id="carouselChatbots" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="https://placehold.co/400x200/4a90e2/ffffff?text=Chatbot+Ejemplo+1" class="d-block w-100" alt="Ejemplo de Chatbot 1">
+                </div>
+                <div class="carousel-item">
+                  <img src="https://placehold.co/400x200/4a90e2/ffffff?text=Chatbot+Ejemplo+2" class="d-block w-100" alt="Ejemplo de Chatbot 2">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Web -->
+        <div class="col-md-6 col-lg-3 d-flex">
+          <div class="card service-card">
+            <div class="service-card-icon"><i class="fas fa-laptop-code"></i></div>
+            <div class="service-card-body">
+              <h4>Desarrollo Web</h4>
+              <p>Creamos sitios web modernos, rápidos y adaptables a todos los dispositivos.</p>
+            </div>
+            <div id="carouselWeb" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3200">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="https://placehold.co/400x200/34c759/ffffff?text=Web+Ejemplo+1" class="d-block w-100" alt="Ejemplo de Sitio Web 1">
+                </div>
+                <div class="carousel-item">
+                  <img src="https://placehold.co/400x200/34c759/ffffff?text=Web+Ejemplo+2" class="d-block w-100" alt="Ejemplo de Sitio Web 2">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- E-commerce -->
+        <div class="col-md-6 col-lg-3 d-flex">
+          <div class="card service-card">
+            <div class="service-card-icon"><i class="fas fa-shopping-cart"></i></div>
+            <div class="service-card-body">
+              <h4>E-commerce</h4>
+              <p>Lleva tu negocio al siguiente nivel con una tienda en línea segura y eficiente.</p>
+            </div>
+            <div id="carouselEcommerce" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3400">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="https://placehold.co/400x200/ff9500/ffffff?text=Ecommerce+1" class="d-block w-100" alt="Ejemplo de E-commerce 1">
+                </div>
+                <div class="carousel-item">
+                  <img src="https://placehold.co/400x200/ff9500/ffffff?text=Ecommerce+2" class="d-block w-100" alt="Ejemplo de E-commerce 2">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Gestión -->
+        <div class="col-md-6 col-lg-3 d-flex">
+          <div class="card service-card">
+            <div class="service-card-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="service-card-body">
+              <h4>Gestión de Stock</h4>
+              <p>Optimiza tu inventario y controla tus operaciones con un sistema a medida.</p>
+            </div>
+            <div id="carouselStock" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3600">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="https://placehold.co/400x200/5856d6/ffffff?text=Stock+Ejemplo+1" class="d-block w-100" alt="Ejemplo de Sistema de Stock 1">
+                </div>
+                <div class="carousel-item">
+                  <img src="https://placehold.co/400x200/5856d6/ffffff?text=Stock+Ejemplo+2" class="d-block w-100" alt="Ejemplo de Sistema de Stock 2">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portafolio -->
+  <section id="portafolio" class="bg-white">
+    <div class="container">
+      <h2 class="text-center section-title">Nuestro Portafolio</h2>
+      <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://placehold.co/1200x500/1a233a/ffffff?text=Proyecto+Destacado+1" class="d-block w-100" alt="Proyecto 1">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Chatbot para E-commerce</h5>
+              <p>Logramos reducir en un 40% las consultas al equipo de soporte al cliente.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://placehold.co/1200x500/4a90e2/ffffff?text=Proyecto+Destacado+2" class="d-block w-100" alt="Proyecto 2">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Sitio Web Corporativo y CRM</h5>
+              <p>Diseño responsive con una completa integración a su sistema de gestión de clientes.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nosotros -->
+  <section id="nosotros">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-md-6 about-us-content">
+          <h2 class="section-title text-start" style="margin-left: -1px;">¿Por qué elegirnos?</h2>
+          <p>Somos un equipo de desarrolladores apasionados por crear soluciones tecnológicas que realmente resuelvan problemas empresariales. Con más de 5 años de experiencia, hemos ayudado a decenas de empresas a optimizar sus procesos, aumentar sus ventas y mejorar la experiencia de sus clientes.</p>
+          <p>Nuestro enfoque se basa en entender profundamente tus necesidades para desarrollar soluciones a medida que agreguen valor real a tu negocio.</p>
+        </div>
+        <div class="col-md-6">
+          <img src="https://placehold.co/600x400/1a233a/ffffff?text=Nuestro+Equipo" class="about-us-img" alt="Equipo de TechSolutions">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto">
+    <div class="container text-white">
+      <h2 class="text-center section-title text-white">Hablemos de tu Proyecto</h2>
+      <p class="text-center mb-5">Completa el formulario y nos pondremos en contacto a la brevedad.</p>
+      <form class="mx-auto" style="max-width:600px;">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" id="name" class="form-control" placeholder="Tu nombre completo" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo Electrónico</label>
+          <input type="email" id="email" class="form-control" placeholder="ejemplo@correo.com" required>
+        </div>
+        <div class="mb-3">
+          <label for="service" class="form-label">¿Qué servicio te interesa?</label>
+          <select id="service" class="form-select">
+            <option>Chatbots Inteligentes</option>
+            <option>Desarrollo Web</option>
+            <option>E-commerce</option>
+            <option>Gestión de Stock</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="message" class="form-label">Mensaje</label>
+          <textarea id="message" class="form-control" rows="4" placeholder="Cuéntanos sobre tu idea o negocio..."></textarea>
+        </div>
+        <button class="btn-accent" type="submit">Enviar Mensaje</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="mb-3">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 - Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Script para efectos de scroll
+    const header = document.querySelector('header');
+    const sections = document.querySelectorAll('section');
+
+    // Cambiar fondo del header al hacer scroll
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Animaciones de aparición de secciones
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+  </script>
+</body>
+</html>
+
