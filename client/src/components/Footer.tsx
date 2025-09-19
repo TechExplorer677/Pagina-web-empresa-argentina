@@ -43,20 +43,119 @@ const socialLinks = [
 export default function Footer({ onContactClick }: FooterProps) {
   return (
     <footer className="relative border-t overflow-hidden" data-testid="footer-main">
-      {/* Modern footer background */}
+      {/* Futuristic Footer Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/95 to-card" />
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/98 to-card" />
         
-        {/* Subtle wave pattern */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335z' fill='%23000'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat-x',
-          backgroundPosition: 'bottom'
-        }} />
+        {/* Circuit Board Pattern */}
+        <div className="absolute inset-0 opacity-[0.04]">
+          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <pattern id="circuit" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M0,10 L20,10 M10,0 L10,20 M5,5 L15,5 M5,15 L15,15" 
+                      stroke="rgba(var(--primary), 0.3)" 
+                      strokeWidth="0.5" 
+                      fill="none"/>
+                <circle cx="10" cy="10" r="1" fill="rgba(var(--primary), 0.4)"/>
+                <circle cx="5" cy="5" r="0.5" fill="rgba(var(--secondary), 0.3)"/>
+                <circle cx="15" cy="15" r="0.5" fill="rgba(var(--secondary), 0.3)"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#circuit)"/>
+          </svg>
+        </div>
         
-        {/* Gradient accents */}
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary/5 to-transparent" />
+        {/* Data Stream Lines */}
+        <div className="absolute inset-0">
+          <div 
+            className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+            style={{ animation: 'data-stream-1 3s ease-in-out infinite' }}
+          />
+          <div 
+            className="absolute top-1/3 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-secondary/20 to-transparent"
+            style={{ animation: 'data-stream-2 4s ease-in-out infinite 1s' }}
+          />
+          <div 
+            className="absolute top-2/3 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent"
+            style={{ animation: 'data-stream-3 5s ease-in-out infinite 2s' }}
+          />
+        </div>
+        
+        {/* Matrix Rain Effect */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(10)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute top-0 w-px bg-gradient-to-b from-primary/20 via-primary/5 to-transparent"
+              style={{
+                left: `${10 + i * 9}%`,
+                height: '100%',
+                animation: `matrix-rain ${2 + i % 3}s linear infinite`,
+                animationDelay: `${i * 0.3}s`
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Holographic Overlay */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] via-transparent to-secondary/[0.02]"
+          style={{
+            backgroundImage: `
+              linear-gradient(45deg, transparent 30%, rgba(var(--primary), 0.03) 50%, transparent 70%),
+              linear-gradient(-45deg, transparent 30%, rgba(var(--secondary), 0.02) 50%, transparent 70%)
+            `,
+            animation: 'holographic 8s ease-in-out infinite'
+          }}
+        />
+        
+        {/* Glitch Effect */}
+        <div 
+          className="absolute top-0 left-0 w-full h-2 bg-primary/10"
+          style={{ 
+            animation: 'glitch 6s ease-in-out infinite',
+            clipPath: 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)'
+          }}
+        />
       </div>
+      
+      <style>{`
+        @keyframes data-stream-1 {
+          0% { transform: translateX(-100%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateX(100%); opacity: 0; }
+        }
+        
+        @keyframes data-stream-2 {
+          0% { transform: translateX(100%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateX(-100%); opacity: 0; }
+        }
+        
+        @keyframes data-stream-3 {
+          0% { transform: translateX(-50%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateX(150%); opacity: 0; }
+        }
+        
+        @keyframes matrix-rain {
+          0% { transform: translateY(-100px); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        @keyframes holographic {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes glitch {
+          0%, 90%, 100% { transform: translateX(0); }
+          95% { transform: translateX(5px); }
+          97% { transform: translateX(-3px); }
+        }
+      `}</style>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Main Footer Content */}
         <div className="py-16">

@@ -50,21 +50,102 @@ export default function Portfolio() {
 
   return (
     <section id="portafolio" className="py-24 relative overflow-hidden" data-testid="section-portfolio">
-      {/* Sophisticated background */}
+      {/* Cyber Tech Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary/5 to-primary/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/98 to-background" />
         
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `linear-gradient(rgba(var(--primary), 0.1) 1px, transparent 1px),
-                           linear-gradient(90deg, rgba(var(--primary), 0.1) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
-        }} />
+        {/* Holographic Grid */}
+        <div className="absolute inset-0">
+          <div 
+            className="absolute inset-0 opacity-[0.06]"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 20% 20%, rgba(var(--primary), 0.4) 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, rgba(var(--secondary), 0.3) 1px, transparent 1px),
+                linear-gradient(45deg, transparent 49%, rgba(var(--primary), 0.1) 50%, transparent 51%)
+              `,
+              backgroundSize: '50px 50px, 30px 30px, 100px 100px',
+              animation: 'hologram 15s linear infinite'
+            }}
+          />
+        </div>
         
-        {/* Animated gradient blobs */}
-        <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-3xl animate-pulse" style={{animationDuration: '6s'}} />
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-secondary/8 to-transparent rounded-full blur-3xl animate-pulse" style={{animationDuration: '8s', animationDelay: '2s'}} />
+        {/* Scanning Line Effect */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/10 to-transparent h-2 w-full"
+          style={{
+            animation: 'scan 4s ease-in-out infinite',
+            background: 'linear-gradient(90deg, transparent, rgba(var(--primary), 0.2), transparent)'
+          }}
+        />
+        
+        {/* Floating Geometric Shapes */}
+        <div className="absolute inset-0">
+          <div 
+            className="absolute top-1/4 left-1/3 w-32 h-32 border border-primary/20 transform rotate-45"
+            style={{ 
+              background: 'linear-gradient(45deg, rgba(var(--primary), 0.05), transparent)',
+              animation: 'float-rotate 12s ease-in-out infinite'
+            }}
+          />
+          <div 
+            className="absolute bottom-1/3 right-1/4 w-24 h-24 border border-secondary/20 rounded-full"
+            style={{ 
+              background: 'radial-gradient(circle, rgba(var(--secondary), 0.05), transparent)',
+              animation: 'float-scale 10s ease-in-out infinite'
+            }}
+          />
+          <div 
+            className="absolute top-1/2 right-1/3 w-20 h-20 bg-primary/5 transform rotate-12"
+            style={{ 
+              clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+              animation: 'float-bounce 8s ease-in-out infinite'
+            }}
+          />
+        </div>
+        
+        {/* Fractal Noise */}
+        <div 
+          className="absolute inset-0 opacity-[0.02] mix-blend-screen"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='fractal'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02 0.1' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23fractal)' opacity='0.3'/%3E%3C/svg%3E")`,
+            animation: 'fractal-move 25s linear infinite'
+          }}
+        />
       </div>
+      
+      <style>{`
+        @keyframes hologram {
+          0% { transform: translateX(-100px) translateY(-50px); }
+          100% { transform: translateX(100px) translateY(50px); }
+        }
+        
+        @keyframes scan {
+          0% { transform: translateY(-100vh); }
+          100% { transform: translateY(100vh); }
+        }
+        
+        @keyframes float-rotate {
+          0%, 100% { transform: rotate(45deg) scale(1); }
+          50% { transform: rotate(225deg) scale(1.1); }
+        }
+        
+        @keyframes float-scale {
+          0%, 100% { transform: scale(1) translateY(0); }
+          50% { transform: scale(1.2) translateY(-20px); }
+        }
+        
+        @keyframes float-bounce {
+          0%, 100% { transform: rotate(12deg) translateY(0); }
+          33% { transform: rotate(30deg) translateY(-15px); }
+          66% { transform: rotate(-5deg) translateY(-5px); }
+        }
+        
+        @keyframes fractal-move {
+          0% { transform: scale(1) rotate(0deg); }
+          100% { transform: scale(1.1) rotate(360deg); }
+        }
+      `}</style>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

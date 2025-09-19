@@ -44,26 +44,65 @@ const services = [
 export default function Services() {
   return (
     <section id="servicios" className="py-24 relative overflow-hidden" data-testid="section-services">
-      {/* Dynamic background */}
+      {/* Modern Neural Network Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/20 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
         
-        {/* Diagonal stripes effect */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 50px,
-            currentColor 50px,
-            currentColor 100px
-          )`,
-          color: 'hsl(var(--primary))'
+        {/* Animated Grid Lines */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage: `
+            linear-gradient(rgba(var(--primary), 0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(var(--primary), 0.3) 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+          animation: 'grid-move 20s linear infinite'
         }} />
         
-        {/* Floating orbs */}
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/3 rounded-full blur-3xl" />
+        {/* Flowing Lines Effect */}
+        <div className="absolute inset-0">
+          <svg className="absolute inset-0 w-full h-full" style={{ mixBlendMode: 'overlay' }}>
+            <defs>
+              <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="rgba(var(--primary), 0.1)" />
+                <stop offset="50%" stopColor="rgba(var(--secondary), 0.05)" />
+                <stop offset="100%" stopColor="rgba(var(--primary), 0.1)" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0,50 Q200,20 400,50 T800,50"
+              stroke="url(#flowGradient)"
+              strokeWidth="2"
+              fill="none"
+              opacity="0.6"
+              style={{ animation: 'flow 8s ease-in-out infinite' }}
+            />
+            <path
+              d="M100,80 Q300,60 500,80 T900,80"
+              stroke="url(#flowGradient)"
+              strokeWidth="1.5"
+              fill="none"
+              opacity="0.4"
+              style={{ animation: 'flow 10s ease-in-out infinite reverse' }}
+            />
+          </svg>
+        </div>
+        
+        {/* Glass Morphism Cards */}
+        <div className="absolute top-1/3 left-1/4 w-72 h-48 bg-white/[0.02] border border-white/[0.05] rounded-3xl backdrop-blur-xl transform -rotate-12 animate-pulse" style={{ animationDuration: '6s' }} />
+        <div className="absolute bottom-1/3 right-1/4 w-80 h-56 bg-primary/[0.03] border border-primary/[0.08] rounded-3xl backdrop-blur-xl transform rotate-6 animate-pulse" style={{ animationDuration: '8s', animationDelay: '2s' }} />
       </div>
+      
+      <style>{`
+        @keyframes grid-move {
+          0% { transform: translate(0, 0); }
+          100% { transform: translate(80px, 80px); }
+        }
+        
+        @keyframes flow {
+          0%, 100% { transform: translateX(0) scale(1); }
+          50% { transform: translateX(100px) scale(1.1); }
+        }
+      `}</style>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

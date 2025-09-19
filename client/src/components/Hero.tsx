@@ -14,29 +14,83 @@ export default function Hero({ onContactClick }: HeroProps) {
       className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden"
       data-testid="section-hero"
     >
-      {/* Enhanced Background with multiple layers */}
+      {/* Ultra-Modern Glassmorphism Background */}
       <div className="absolute inset-0 z-0">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/5" />
+        {/* Base glass effect */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] via-primary/[0.08] to-secondary/[0.04] backdrop-blur-3xl" />
         
-        {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-secondary/10 animate-pulse" style={{animationDuration: '4s'}} />
+        {/* Animated morphing blobs */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div 
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-primary/20 to-secondary/15 rounded-full blur-3xl animate-pulse"
+            style={{
+              animation: 'morphing 15s ease-in-out infinite',
+              animationDelay: '0s'
+            }}
+          />
+          <div 
+            className="absolute bottom-1/3 right-1/3 w-80 h-80 bg-gradient-to-l from-secondary/20 to-primary/10 rounded-full blur-3xl animate-pulse"
+            style={{
+              animation: 'morphing 20s ease-in-out infinite',
+              animationDelay: '5s'
+            }}
+          />
+          <div 
+            className="absolute top-1/2 right-1/4 w-64 h-64 bg-gradient-to-br from-primary/15 to-transparent rounded-full blur-2xl animate-pulse"
+            style={{
+              animation: 'floating 12s ease-in-out infinite',
+              animationDelay: '3s'
+            }}
+          />
+        </div>
         
-        {/* Radial gradients for depth */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(var(--primary),0.15),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(var(--secondary),0.1),transparent_50%)]" />
+        {/* CSS Particle Effect */}
+        <div className="absolute inset-0 opacity-60">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-primary/40 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `particle-float ${3 + Math.random() * 4}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 5}s`
+              }}
+            />
+          ))}
+        </div>
         
-        {/* Geometric pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, currentColor 2px, transparent 2px),
-                           radial-gradient(circle at 75% 75%, currentColor 2px, transparent 2px)`,
-          backgroundSize: '100px 100px',
-          color: 'hsl(var(--primary))'
-        }} />
+        {/* Noise texture overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          }}
+        />
         
-        {/* Mesh gradient effect */}
-        <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,rgba(var(--primary),0.03)_60deg,transparent_120deg,rgba(var(--secondary),0.03)_180deg,transparent_240deg,rgba(var(--primary),0.03)_300deg,transparent_360deg)]" />
+        {/* Iridescent gradient mesh */}
+        <div className="absolute inset-0 bg-[conic-gradient(from_230.29deg_at_51.63%_52.16%,rgb(36,0,255,0.05)_0deg,rgb(0,135,255,0.03)_67.5deg,rgb(108,39,157,0.04)_198.75deg,rgb(24,38,163,0.06)_251.25deg,rgb(54,103,196,0.02)_301.88deg,rgb(105,30,255,0.05)_360deg)]" />
       </div>
+      
+      <style>{`
+        @keyframes morphing {
+          0%, 100% { transform: scale(1) rotate(0deg); border-radius: 50%; }
+          25% { transform: scale(1.2) rotate(90deg); border-radius: 60% 40% 30% 70%; }
+          50% { transform: scale(0.8) rotate(180deg); border-radius: 30% 60% 70% 40%; }
+          75% { transform: scale(1.1) rotate(270deg); border-radius: 40% 50% 60% 30%; }
+        }
+        
+        @keyframes floating {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          33% { transform: translateY(-20px) translateX(10px); }
+          66% { transform: translateY(10px) translateX(-15px); }
+        }
+        
+        @keyframes particle-float {
+          0%, 100% { transform: translateY(0px) scale(1); opacity: 0.2; }
+          50% { transform: translateY(-30px) scale(1.2); opacity: 0.8; }
+        }
+      `}</style>
 
       {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden">
