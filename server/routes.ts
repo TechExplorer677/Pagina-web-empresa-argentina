@@ -51,7 +51,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       `;
 
       // Send email using MailerSend API
-      const sentFrom = new Sender("contacto@prueba-eqvygm0m56dl0p7w.mlsender.net", "Formulario de Contacto");
+      const sentFrom = new Sender("contacto@test-eqvygm0m56dl0p7w.mlsender.net", "Formulario de Contacto");
       const recipients = [new Recipient("albaabel46@gmail.com", "Tech Solutions")];
 
       const emailParams = new EmailParams()
