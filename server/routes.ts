@@ -48,7 +48,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Configure email parameters
       const sentFrom = new Sender("MS_VCjXJj@trial-pxkjn41ryo84z781.mlsender.net", "Formulario de Contacto");
-      const recipients = [new Recipient("hola@techsolutions.com", "Tech Solutions")];
+      const recipients = [new Recipient("techsolutions3480@gmail.com", "Tech Solutions")];
 
       const emailParams = new EmailParams()
         .setFrom(sentFrom)
