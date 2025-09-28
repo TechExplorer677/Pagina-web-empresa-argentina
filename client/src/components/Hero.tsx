@@ -143,7 +143,7 @@ export default function Hero({ onContactClick }: HeroProps) {
               data-testid="hero-title"
             >
               Transformamos tus{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/70">
+              <span className="text-shimmer font-extrabold">
                 ideas
               </span>{" "}
               en realidad digital
@@ -169,7 +169,7 @@ export default function Hero({ onContactClick }: HeroProps) {
               <Button
                 size="lg"
                 onClick={onContactClick}
-                className="hover-elevate group"
+                className="hover-elevate group pulse-glow"
                 data-testid="button-hero-primary"
               >
                 Comenzar Proyecto
@@ -202,10 +202,16 @@ export default function Hero({ onContactClick }: HeroProps) {
                 { number: "25+", label: "Clientes" },
                 { number: "98%", label: "Satisfacción" },
               ].map((stat, index) => (
-                <div key={index} className="text-center lg:text-left">
+                <motion.div 
+                  key={index} 
+                  className="text-center lg:text-left"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.8 + index * 0.2, duration: 0.4 }}
+                >
                   <div className="text-2xl sm:text-3xl font-bold text-primary">{stat.number}</div>
                   <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </div>
+                </motion.div>
               ))}
             </motion.div>
           </motion.div>
