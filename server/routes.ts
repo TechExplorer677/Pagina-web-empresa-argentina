@@ -77,11 +77,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Mensaje enviado correctamente" 
       });
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error sending email:", error);
+      
+      let errorMessage = "Error al enviar el mensaje. Por favor, inténtalo de nuevo.";
+      
+      if (error?.body?.message?.includes("Trial accounts can only send emails")) {
+        errorMessage = "El correo no se pudo enviar porque la cuenta de MailerSend está en modo de prueba. Por favor, configura tu dominio verificado o contacta al administrador.";
+      }
+      
       res.status(500).json({ 
         success: false, 
-        message: "Error al enviar el mensaje. Por favor, inténtalo de nuevo." 
+        message: errorMessage
       });
     }
   });
