@@ -2,7 +2,6 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
-import nodemailer from "nodemailer";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize MailerSend with API key from environment variable
@@ -51,78 +50,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
         </div>
       `;
 
-      // Try SMTP first (more reliable for trial accounts)
-      try {
-        const transporter = nodemailer.createTransport({
-          host: 'smtp.mailersend.net',
-          port: 587,
-          secure: false, // true for 465, false for other ports
-          auth: {
-            user: 'MS_VCjXJj@prueba-eqvygm0m56dl0p7w.mlsender.net',
-            pass: process.env.MAILERSEND_API_KEY,
-          },
-        });
+      // Send email using MailerSend API
+      const sentFrom = new Sender("contacto@prueba-eqvygm0m56dl0p7w.mlsender.net", "Formulario de Contacto");
+      const recipients = [new Recipient("albaabel46@gmail.com", "Tech Solutions")];
 
-        const info = await transporter.sendMail({
-          from: '"Formulario de Contacto" <contacto@prueba-eqvygm0m56dl0p7w.mlsender.net>',
-          to: 'albaabel46@gmail.com',
-          replyTo: `"${name}" <${email}>`,
-          subject: `Nuevo mensaje de contacto - ${service}`,
-          html: emailContent,
-          text: `
-            Nuevo mensaje de contacto
-            
-            Nombre: ${name}
-            Email: ${email}
-            Teléfono: ${phone}
-            ${company ? `Empresa: ${company}` : ''}
-            Servicio: ${service}
-            Presupuesto: ${budget}
-            
-            Mensaje: ${message}
-          `,
-        });
+      const emailParams = new EmailParams()
+        .setFrom(sentFrom)
+        .setTo(recipients)
+        .setReplyTo(new Sender(email, name))
+        .setSubject(`Nuevo mensaje de contacto - ${service}`)
+        .setHtml(emailContent)
+        .setText(`
+          Nuevo mensaje de contacto
+          
+          Nombre: ${name}
+          Email: ${email}
+          Teléfono: ${phone}
+          ${company ? `Empresa: ${company}` : ''}
+          Servicio: ${service}
+          Presupuesto: ${budget}
+          
+          Mensaje: ${message}
+        `);
 
-        console.log('Email sent via SMTP:', info.messageId);
-        
-        res.json({ 
-          success: true, 
-          message: "Mensaje enviado correctamente" 
-        });
-
-      } catch (smtpError) {
-        console.log('SMTP failed, trying API...', smtpError);
-        
-        // Fallback to API method
-        const sentFrom = new Sender("contacto@prueba-eqvygm0m56dl0p7w.mlsender.net", "Formulario de Contacto");
-        const recipients = [new Recipient("albaabel46@gmail.com", "Tech Solutions")];
-
-        const emailParams = new EmailParams()
-          .setFrom(sentFrom)
-          .setTo(recipients)
-          .setReplyTo(new Sender(email, name))
-          .setSubject(`Nuevo mensaje de contacto - ${service}`)
-          .setHtml(emailContent)
-          .setText(`
-            Nuevo mensaje de contacto
-            
-            Nombre: ${name}
-            Email: ${email}
-            Teléfono: ${phone}
-            ${company ? `Empresa: ${company}` : ''}
-            Servicio: ${service}
-            Presupuesto: ${budget}
-            
-            Mensaje: ${message}
-          `);
-
-        await mailerSend.email.send(emailParams);
-
-        res.json({ 
-          success: true, 
-          message: "Mensaje enviado correctamente" 
-        });
-      }
+      await mailerSend.email.send(emailParams);
+      
+      console.log('Email sent successfully via MailerSend API');
+      
+      res.json({ 
+        success: true, 
+        message: "Mensaje enviado correctamente" 
+      });
 
     } catch (error: any) {
       console.error("Error sending email:", error);
