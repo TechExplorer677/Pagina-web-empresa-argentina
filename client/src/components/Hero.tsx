@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import heroImage from "@assets/generated_images/Modern_software_development_office_e04b5403.png";
@@ -8,6 +8,10 @@ interface HeroProps {
 }
 
 export default function Hero({ onContactClick }: HeroProps) {
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  
   return (
     <section
       id="inicio"
@@ -19,34 +23,65 @@ export default function Hero({ onContactClick }: HeroProps) {
         {/* Base glass effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] via-primary/[0.08] to-secondary/[0.04] backdrop-blur-3xl" />
         
-        {/* Animated morphing blobs */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div 
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-primary/20 to-secondary/15 rounded-full blur-3xl animate-pulse"
+        {/* Animated morphing blobs with parallax */}
+        <motion.div 
+          className="absolute inset-0 overflow-hidden"
+          style={{ y }}
+        >
+          <motion.div 
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-primary/20 to-secondary/15 rounded-full blur-3xl"
             style={{
               animation: 'morphing 15s ease-in-out infinite',
               animationDelay: '0s'
             }}
+            animate={{
+              scale: [1, 1.1, 1],
+              rotate: [0, 180, 360]
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
           />
-          <div 
-            className="absolute bottom-1/3 right-1/3 w-80 h-80 bg-gradient-to-l from-secondary/20 to-primary/10 rounded-full blur-3xl animate-pulse"
+          <motion.div 
+            className="absolute bottom-1/3 right-1/3 w-80 h-80 bg-gradient-to-l from-secondary/20 to-primary/10 rounded-full blur-3xl"
             style={{
               animation: 'morphing 20s ease-in-out infinite',
               animationDelay: '5s'
             }}
+            animate={{
+              scale: [1, 0.8, 1.2, 1],
+              x: [0, 30, -30, 0],
+              y: [0, -20, 20, 0]
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
           />
-          <div 
-            className="absolute top-1/2 right-1/4 w-64 h-64 bg-gradient-to-br from-primary/15 to-transparent rounded-full blur-2xl animate-pulse"
+          <motion.div 
+            className="absolute top-1/2 right-1/4 w-64 h-64 bg-gradient-to-br from-primary/15 to-transparent rounded-full blur-2xl"
             style={{
               animation: 'floating 12s ease-in-out infinite',
               animationDelay: '3s'
             }}
+            animate={{
+              y: [0, -40, 40, 0],
+              opacity: [0.3, 0.8, 0.5, 0.3]
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
           />
-        </div>
+        </motion.div>
         
-        {/* CSS Particle Effect */}
+        {/* CSS Particle Effect - Reduced count for performance */}
         <div className="absolute inset-0 opacity-60">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(12)].map((_, i) => (
             <div
               key={i}
               className="absolute w-1 h-1 bg-primary/40 rounded-full"
@@ -90,30 +125,46 @@ export default function Hero({ onContactClick }: HeroProps) {
           0%, 100% { transform: translateY(0px) scale(1); opacity: 0.2; }
           50% { transform: translateY(-30px) scale(1.2); opacity: 0.8; }
         }
+        
+        /* Respect reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+          .morphing-blob,
+          .floating-particle,
+          .enhanced-float {
+            animation: none !important;
+            transform: none !important;
+          }
+        }
       `}</style>
 
-      {/* Floating Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Enhanced Floating Elements - Reduced count for performance */}
+      <motion.div 
+        className="absolute inset-0 overflow-hidden"
+        style={{ opacity }}
+      >
         {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-primary/30 rounded-full"
+            className="absolute w-2 h-2 bg-primary/30 rounded-full shadow-lg"
             style={{
-              left: `${20 + i * 15}%`,
-              top: `${20 + (i % 3) * 20}%`,
+              left: `${15 + i * 12}%`,
+              top: `${15 + (i % 4) * 20}%`,
             }}
             animate={{
               y: [-20, 20, -20],
-              opacity: [0.3, 0.7, 0.3],
+              x: [-10, 10, -10],
+              opacity: [0.2, 0.8, 0.2],
+              scale: [1, 1.5, 1],
             }}
             transition={{
-              duration: 3 + i * 0.5,
+              duration: 4 + i * 0.5,
               repeat: Infinity,
               ease: "easeInOut",
+              delay: i * 0.2,
             }}
           />
         ))}
-      </div>
+      </motion.div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -175,6 +226,7 @@ export default function Hero({ onContactClick }: HeroProps) {
                 Comenzar Proyecto
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
+              
               <Button
                 size="lg"
                 variant="outline"
@@ -233,15 +285,20 @@ export default function Hero({ onContactClick }: HeroProps) {
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-primary/20 to-transparent" />
             </div>
 
-            {/* Floating Cards */}
+            {/* Floating Cards - Responsive positioning */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1, duration: 0.5 }}
-              className="absolute -top-4 -left-4 bg-card border rounded-lg p-4 shadow-lg"
+              whileHover={{ 
+                scale: 1.05, 
+                y: -5,
+                boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
+              }}
+              className="absolute -top-2 sm:-top-4 -left-2 sm:-left-4 bg-card/90 backdrop-blur-sm border rounded-lg p-3 sm:p-4 shadow-lg hover-elevate cursor-pointer"
               data-testid="hero-floating-card-1"
             >
-              <div className="text-sm font-medium">Chatbot IA</div>
+              <div className="text-xs sm:text-sm font-medium">Chatbot IA</div>
               <div className="text-xs text-muted-foreground">+300% engagement</div>
             </motion.div>
 
@@ -249,10 +306,15 @@ export default function Hero({ onContactClick }: HeroProps) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.2, duration: 0.5 }}
-              className="absolute -bottom-4 -right-4 bg-card border rounded-lg p-4 shadow-lg"
+              whileHover={{ 
+                scale: 1.05, 
+                y: -5,
+                boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
+              }}
+              className="absolute -bottom-2 sm:-bottom-4 -right-2 sm:-right-4 bg-card/90 backdrop-blur-sm border rounded-lg p-3 sm:p-4 shadow-lg hover-elevate cursor-pointer"
               data-testid="hero-floating-card-2"
             >
-              <div className="text-sm font-medium">Web App</div>
+              <div className="text-xs sm:text-sm font-medium">Web App</div>
               <div className="text-xs text-muted-foreground">Responsive & rápida</div>
             </motion.div>
           </motion.div>
