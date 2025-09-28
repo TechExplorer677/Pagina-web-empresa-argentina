@@ -47,7 +47,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       `;
 
       // Configure email parameters
-      const sentFrom = new Sender("MS_VCjXJj@trial-pxkjn41ryo84z781.mlsender.net", "Formulario de Contacto");
+      const sentFrom = new Sender("albaabel46@gmail.com", "Formulario de Contacto");
       const recipients = [new Recipient("albaabel46@gmail.com", "Tech Solutions")];
 
       const emailParams = new EmailParams()
@@ -84,6 +84,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (error?.body?.message?.includes("Trial accounts can only send emails")) {
         errorMessage = "El correo no se pudo enviar porque la cuenta de MailerSend está en modo de prueba. Por favor, configura tu dominio verificado o contacta al administrador.";
+      } else if (error?.body?.message?.includes("domain must be verified")) {
+        errorMessage = "El dominio del correo debe estar verificado en MailerSend. Por favor, verifica tu dominio en la configuración de MailerSend.";
       }
       
       res.status(500).json({ 
