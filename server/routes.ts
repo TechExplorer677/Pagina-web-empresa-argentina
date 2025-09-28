@@ -5,9 +5,9 @@ import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 import nodemailer from "nodemailer";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Initialize MailerSend
+  // Initialize MailerSend with your specific token
   const mailerSend = new MailerSend({
-    apiKey: process.env.MAILERSEND_API_TOKEN || "",
+    apiKey: "mlsn.2122e7d72812f3c4b4465db67279d9a6137d71cfc7e3a8c9c4d04fa24eba2dd5",
   });
 
   // Contact form endpoint
@@ -49,13 +49,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Try SMTP first (more reliable for trial accounts)
       try {
-        const transporter = nodemailer.createTransporter({
+        const transporter = nodemailer.createTransport({
           host: 'smtp.mailersend.net',
           port: 587,
           secure: false, // true for 465, false for other ports
           auth: {
             user: 'MS_VCjXJj@prueba-eqvygm0m56dl0p7w.mlsender.net',
-            pass: process.env.MAILERSEND_API_TOKEN || "",
+            pass: "mlsn.2122e7d72812f3c4b4465db67279d9a6137d71cfc7e3a8c9c4d04fa24eba2dd5",
           },
         });
 
