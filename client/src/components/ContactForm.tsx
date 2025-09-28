@@ -70,10 +70,20 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
     setIsSubmitting(true);
     
     try {
-      // TODO: Implement actual form submission
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
-      
-      console.log("Form submitted:", data);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Error al enviar el mensaje");
+      }
+
       setIsSubmitted(true);
       
       toast({
@@ -88,9 +98,10 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
       }, 3000);
       
     } catch (error) {
+      console.error("Error submitting form:", error);
       toast({
         title: "Error",
-        description: "Hubo un problema al enviar el mensaje. Inténtalo de nuevo.",
+        description: error instanceof Error ? error.message : "Hubo un problema al enviar el mensaje. Inténtalo de nuevo.",
         variant: "destructive",
       });
     } finally {
