@@ -124,20 +124,30 @@ export default function Services() {
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ 
+                duration: 0.5, 
+                delay: index * 0.1,
+                ease: [0.25, 0.1, 0.25, 1]
+              }}
+              whileHover={{ y: -5 }}
             >
               <Card 
-                className="h-full hover-elevate group border-0 bg-card/50 backdrop-blur-sm"
+                className="h-full group border-0 bg-card/50 backdrop-blur-sm"
                 data-testid={`service-card-${index}`}
               >
-                <CardContent className="p-8">
+                <div className="hover-elevate h-full">
+                  <CardContent className="p-8">
                   <div className="mb-6">
-                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                    <motion.div 
+                      className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <service.icon className="h-8 w-8 text-primary" />
-                    </div>
+                    </motion.div>
                     <h3 className="text-xl font-bold mb-3" data-testid={`service-title-${index}`}>
                       {service.title}
                     </h3>
@@ -148,17 +158,37 @@ export default function Services() {
 
                   <div className="space-y-2">
                     {service.features.map((feature, featureIndex) => (
-                      <div 
+                      <motion.div 
                         key={featureIndex} 
                         className="flex items-center text-sm text-muted-foreground"
                         data-testid={`service-feature-${index}-${featureIndex}`}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ 
+                          duration: 0.3, 
+                          delay: (index * 0.1) + (featureIndex * 0.05) + 0.3,
+                          ease: "easeOut"
+                        }}
                       >
-                        <div className="w-2 h-2 bg-primary rounded-full mr-3" />
+                        <motion.div 
+                          className="w-2 h-2 bg-primary rounded-full mr-3" 
+                          initial={{ scale: 0 }}
+                          whileInView={{ scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ 
+                            duration: 0.2, 
+                            delay: (index * 0.1) + (featureIndex * 0.05) + 0.4,
+                            type: "spring",
+                            stiffness: 200
+                          }}
+                        />
                         {feature}
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
-                </CardContent>
+                  </CardContent>
+                </div>
               </Card>
             </motion.div>
           ))}

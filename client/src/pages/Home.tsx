@@ -44,7 +44,7 @@ export default function Home() {
       <Footer onContactClick={handleContactClick} />
 
       {/* Contact Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isContactOpen && (
           <ContactForm 
             isOpen={isContactOpen} 

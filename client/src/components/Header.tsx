@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Rocket } from "lucide-react";
 
@@ -20,8 +20,9 @@ export default function Header({ onContactClick }: HeaderProps) {
 
   return (
     <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
       className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b"
       data-testid="header-main"
     >
@@ -46,9 +47,14 @@ export default function Header({ onContactClick }: HeaderProps) {
             {menuItems.map((item, index) => (
               <motion.div
                 key={item.name}
-                initial={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, y: -15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index }}
+                transition={{ 
+                  delay: 0.3 + (0.1 * index),
+                  duration: 0.4,
+                  ease: "easeOut"
+                }}
+                whileHover={{ scale: 1.05 }}
               >
                 {item.isButton ? (
                   <Button
@@ -89,48 +95,51 @@ export default function Header({ onContactClick }: HeaderProps) {
         </div>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t mt-4 pt-4 pb-4"
-            data-testid="mobile-menu"
-          >
-            <div className="flex flex-col space-y-4">
-              {menuItems.map((item) => (
-                <div key={item.name}>
-                  {item.isButton ? (
-                    <Button
-                      onClick={() => {
-                        onContactClick();
-                        setIsMenuOpen(false);
-                      }}
-                      className="w-full hover-elevate"
-                      data-testid={`button-mobile-${item.name.toLowerCase()}`}
-                    >
-                      {item.name}
-                    </Button>
-                  ) : (
-                    <a
-                      href={item.href}
-                      className="block py-2 px-4 text-foreground hover:text-primary hover:bg-accent rounded-md transition-all hover-elevate"
-                      data-testid={`link-mobile-${item.name.toLowerCase()}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const element = document.querySelector(item.href);
-                        element?.scrollIntoView({ behavior: "smooth" });
-                        setIsMenuOpen(false);
-                      }}
-                    >
-                      {item.name}
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="md:hidden border-t mt-4 pt-4 pb-4 overflow-hidden"
+              data-testid="mobile-menu"
+            >
+              <div className="flex flex-col space-y-4">
+                {menuItems.map((item) => (
+                  <div key={item.name}>
+                    {item.isButton ? (
+                      <Button
+                        onClick={() => {
+                          onContactClick();
+                          setIsMenuOpen(false);
+                        }}
+                        className="w-full hover-elevate"
+                        data-testid={`button-mobile-${item.name.toLowerCase()}`}
+                      >
+                        {item.name}
+                      </Button>
+                    ) : (
+                      <a
+                        href={item.href}
+                        className="block py-2 px-4 text-foreground hover:text-primary hover:bg-accent rounded-md transition-all hover-elevate"
+                        data-testid={`link-mobile-${item.name.toLowerCase()}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const element = document.querySelector(item.href);
+                          element?.scrollIntoView({ behavior: "smooth" });
+                          setIsMenuOpen(false);
+                        }}
+                      >
+                        {item.name}
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.header>
   );

@@ -116,15 +116,21 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
       onClick={onClose}
       data-testid="contact-modal-overlay"
     >
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        className="bg-background rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        initial={{ scale: 0.8, opacity: 0, y: 50 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.8, opacity: 0, y: 50 }}
+        transition={{
+          duration: 0.4,
+          ease: [0.25, 0.1, 0.25, 1],
+          staggerChildren: 0.1
+        }}
+        className="bg-background rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
         onClick={(e) => e.stopPropagation()}
         data-testid="contact-modal"
       >
@@ -200,8 +206,13 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
 
             {isSubmitted ? (
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+                initial={{ scale: 0.8, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.5,
+                  ease: [0.25, 0.1, 0.25, 1],
+                  delay: 0.1
+                }}
                 className="text-center py-12"
                 data-testid="contact-form-success"
               >
