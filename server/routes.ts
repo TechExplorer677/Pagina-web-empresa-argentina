@@ -5,9 +5,13 @@ import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 import nodemailer from "nodemailer";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Initialize MailerSend with your specific token
+  // Initialize MailerSend with API key from environment variable
+  if (!process.env.MAILERSEND_API_KEY) {
+    throw new Error("MAILERSEND_API_KEY environment variable is required");
+  }
+  
   const mailerSend = new MailerSend({
-    apiKey: "mlsn.2122e7d72812f3c4b4465db67279d9a6137d71cfc7e3a8c9c4d04fa24eba2dd5",
+    apiKey: process.env.MAILERSEND_API_KEY,
   });
 
   // Contact form endpoint
@@ -55,7 +59,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           secure: false, // true for 465, false for other ports
           auth: {
             user: 'MS_VCjXJj@prueba-eqvygm0m56dl0p7w.mlsender.net',
-            pass: "mlsn.2122e7d72812f3c4b4465db67279d9a6137d71cfc7e3a8c9c4d04fa24eba2dd5",
+            pass: process.env.MAILERSEND_API_KEY,
           },
         });
 
